@@ -84,8 +84,32 @@ correlation matrix of the dataset is as follows:
 | alcohol         | -0.120881     | 0.067718         | -0.075729   | -0.450631      | -0.360189 | -0.250104           | -0.448892            | -0.780138| 0.121432| -0.017433| 1.000000| 0.435575|
 | quality         | -0.113663     | -0.194723        | -0.009209   | -0.097577      | -0.209934 | 0.008158            | -0.174737            | -0.307123| 0.099427| 0.053678| 0.435575| 1.000000|
 
+Data visualization of the dataset is as follows:
+<div style="display: flex; justify-content: center;">
+    <img src="images/quality vs alcohol.png" alt="Image 1" width="400" />
+    <img src="images/quality vs chlorides.png" alt="Image 2" width="400" />
+</div>
+<div style="display: flex; justify-content: center;">
+    <img src="images/quality vs citric acid.png" alt="Image 3" width="400" />
+    <img src="images/quality vs density.png" alt="Image 4" width="400" />
+</div>
+<div style="display: flex; justify-content: center;">
+    <img src="images/quality vs fixed acidity.png" alt="Image 5" width="400" />
+    <img src="images/quality vs free sulfur dioxide.png" alt="Image 6" width="400" />
+</div>
+<div style="display: flex; justify-content: center;">
+    <img src="images/quality vs pH.png" alt="Image 7" width="400" />
+    <img src="images/quality vs residual sugar.png" alt="Image 8" width="400" />
+</div>
+<div style="display: flex; justify-content: center;">
+    <img src="images/quality vs sulphates.png" alt="Image 9" width="400" />
+    <img src="images/quality vs total sulfur dioxide.png" alt="Image 10" width="400" />
+</div>
+<div style="display: flex; justify-content: center;">
+    <img src="images/quality vs volatile acidity.png" alt="Image 11" width="400" />
+</div>
 correlation matrix plot of the dataset is as follows:
-![alt text](image-1.png)
+<img src="images/image-1.png">
 
 ### 1. Point and Interval Estimation of all parameters
 
@@ -96,6 +120,16 @@ we have considered the quality of the wine as the dependent variable and all oth
 & y=\beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_3+\beta_4x_4+\beta_5x_5+\beta_6x_6+\beta_7x_7+\beta_8x_8+\beta_9x_9+\beta_{10}x_{10}+\beta_{11}x_{11}
 \end{align*}
 ```
+
+it uses the normal equation for estimating the parameters internally.
+
+```math
+\begin{align*}
+&\beta=(X^TX)^{-1}X^Ty
+\end{align*}
+```
+
+where $X$ is the design matrix and $y$ is the response vector.
 
  The estimated parameters are as follows:
 
@@ -116,7 +150,16 @@ we have considered the quality of the wine as the dependent variable and all oth
 \end{align*}
 ```
 
-estimated confidence intervals of the parameters are as follows:
+We estimate the confidence intervals of the parameters using the given formula:
+
+```math
+\begin{align*}
+&[\beta_j - t_{\frac{\alpha}{2},n-p-1}\sqrt{MS_{Res}C_{jj}},\beta_i - t_{\frac{\alpha}{2},n-p-1}\sqrt{MS_{Res}C_{jj}}]
+\end{align*}
+```
+
+where $MS_{Res}$ is the residual mean square and $C_{jj}$ are the diagonal entries of $(X^T X)^{-1}$. But our sample size is large enough, so we can use the normal distribution for calculating the confidence intervals. \
+The confidence intervals of the parameters are as follows:
 
 ```math
 \begin{align*}
@@ -134,4 +177,65 @@ estimated confidence intervals of the parameters are as follows:
 &\beta_{11} \in [0.1777,0.2803]
 \end{align*}
 ```
-for estimating the confidence intervals of the parameters, we have used statsmodels library. Which uses the t-distribution for calculating the confidence intervals as the sample size is less than 30.
+
+for estimating the confidence intervals of the parameters, we have used statsmodels library.
+
+### 2. Testing the significance of the regression
+
+We have tested the significance of the regression using the F-test. The null hypothesis is that all the parameters are zero. The alternative hypothesis is that at least one parameter is non-zero. The F-statistic is calculated as follows:
+
+```math
+\begin{align*}
+&F=\frac{MS_{Reg}/p}{MS_{Res}/(n-p-1)} \sim F(p,n-p-1)
+\end{align*}
+```
+
+where $MS_{Reg}$ is the regression mean square and $MS_{Res}$ is the residual mean square. The F-statistic is compared with the critical value of the F-distribution for the given significance level and degrees of freedom. If the F-statistic is greater than the critical value, then we reject the null hypothesis. The F-statistic is 141.1 and the critical value is 1.7906. So we reject the null hypothesis.
+
+### 3. Residual Analysis
+
+We have divided the dataset into training and testing datasets. We have fitted the model to the training dataset and predicted the values of the testing dataset. The residuals are calculated as the difference between the actual values and the predicted values. The residuals are plotted against the predicted values. The residuals are normally distributed as we can see in the Q-Q plot and the other plots. The residuals are plotted against the predicted values.
+<img src="images/qq_plot.png">
+<img src="images/residual_plot.png">
+<img src="images/histogram_residuals.png">
+
+```math
+\begin{align*}
+& SS_{total}= 758.9837\\
+& SS_{Res}= 557.6443\\
+& SS_{Reg}= 201.3393\\
+& MS_{Res}= 0.5761\\
+& MS_{Reg}= 16.7782
+\end{align*}
+```
+
+### 4. Finding Adjusted R2
+
+The adjusted R2 is calculated as follows:
+
+```math
+\begin{align*}
+& R^2_{adj}=1-\frac{SS_{Res}}{SS_{Total}}\times\frac{n-1}{n-p-1}\\
+& R^2=1-\frac{SS_{Res}}{SS_{Total}}
+\end{align*}
+```
+
+where
+
+```math
+\begin{align*}
+& SS_{Total}=\sum_{i=1}^{n}(y_i-\bar{y})^2\\
+& SS_{Res}=\sum_{i=1}^{n}(y_i-\hat{y_i})^2
+\end{align*}
+```
+
+where $SS_{Total}$ is the total sum of square. $SS_{Res}$ is the residual sum of square. $n$ is the number of observations and $p$ is the number of parameters.
+
+```math
+\begin{align*}
+& R^2_{adj}=0.282 \\
+& R^2=0.265
+\end{align*}
+```
+
+### 5. Subset Selection

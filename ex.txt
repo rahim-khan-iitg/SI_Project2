@@ -35,6 +35,11 @@ Reject null hypothesis
 indicating that at least one independent variable is contributing to the explanation of the dependent variable.
 -----------------------------------------------------------------------------------
 Residual Analysis
+ss_total: 758.9836734693878
+ss_residual: 557.644276288466
+ss_regression: 201.33939718092176
+ms_residual: 0.5760787978186632
+ms_regression: 16.778283098410146
 -----------------------------------------------------------------------------------
 graphs as been plotted
 -----------------------------------------------------------------------------------

@@ -18,6 +18,17 @@ y = data['quality']
 # Split the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+# plotting the data
+for i in ['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar',
+       'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density',
+       'pH', 'sulphates', 'alcohol']:
+    plt.figure()
+    plt.scatter(data['quality'],data[i])
+    plt.xlabel('quality')
+    plt.ylabel(i)
+    plt.title('quality vs '+i)
+    plt.savefig('quality vs '+i+'.png')
+    plt.close()
 
 # point estimation for parameters:
 
@@ -77,6 +88,18 @@ print("-------------------------------------------------------------------------
 predicted_values = model.predict(X_test)
 # Calculate residuals
 residuals = y_test - predicted_values
+ss_total = np.sum((y_test - np.mean(y_test))**2)
+ss_residual = np.sum(residuals**2)
+ss_regression = ss_total - ss_residual
+ms_residual = ss_residual / (len(y_test) - 12)
+ms_regression = ss_regression / 12
+print(f"ss_total: {ss_total}")
+print(f"ss_residual: {ss_residual}")
+print(f"ss_regression: {ss_regression}")
+print(f"ms_residual: {ms_residual}")
+print(f"ms_regression: {ms_regression}")
+print("-----------------------------------------------------------------------------------")
+
 # Residual plot
 plt.figure(figsize=(10, 6))
 plt.scatter(predicted_values, residuals)
@@ -85,6 +108,8 @@ plt.title('Residual Plot')
 plt.xlabel('Predicted Values')
 plt.ylabel('Residuals')
 plt.show()
+# plt.savefig('residual_plot.png')
+# plt.close()
 # Histogram of residuals
 plt.figure(figsize=(10, 6))
 plt.hist(residuals, bins=30, edgecolor='k', alpha=0.7)
@@ -92,6 +117,8 @@ plt.title('Histogram of Residuals')
 plt.xlabel('Residuals')
 plt.ylabel('Frequency')
 plt.show()
+# plt.savefig('histogram_residuals.png')
+# plt.close()
 # Generate Q-Q plot
 fig, ax = plt.subplots(figsize=(8, 6))
 sm.qqplot(residuals, line ='q', ax=ax)
@@ -99,6 +126,9 @@ ax.set_title('Q-Q Plot of Residuals')
 ax.set_xlabel('Theoretical Quantiles')
 ax.set_ylabel('Sample Quantiles')
 plt.show()
+# plt.savefig('qq_plot.png')
+# plt.close()
+
 print("graphs as been plotted")
 
 print("-----------------------------------------------------------------------------------")
