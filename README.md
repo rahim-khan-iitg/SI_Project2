@@ -16,8 +16,8 @@ Perform regression analysis by:
 
 ## Dataset
 
-We have taken the dataset from UC Irvine Machine Learning Repository. The dataset is related to red and white variants of the Portuguese "Vinho Verde" wine. The dataset can be found [here](https://archive.ics.uci.edu/dataset/186/wine+quality).
-related research paper can be found [here](https://www.sciencedirect.com/science/article/pii/S0167923609001377?via%3Dihub). \
+We have taken the dataset from UC Irvine Machine Learning Repository. The dataset is related to red and white variants of the Portuguese "Vinho Verde" wine. The dataset can be found [https://archive.ics.uci.edu/dataset/186/wine+quality](https://archive.ics.uci.edu/dataset/186/wine+quality).
+related research paper can be found [https://www.sciencedirect.com/science/article/pii/S0167923609001377?via%3Dihub](https://www.sciencedirect.com/science/article/pii/S0167923609001377?via%3Dihub). \
 This dataset contains 2 files:
 
 - winequality-red.csv
@@ -87,3 +87,51 @@ correlation matrix of the dataset is as follows:
 correlation matrix plot of the dataset is as follows:
 ![alt text](image-1.png)
 
+### 1. Point and Interval Estimation of all parameters
+
+we have considered the quality of the wine as the dependent variable and all other variables as independent variables. Now we have fitted a multiple linear regression model to the dataset using scikit-learn for estimating the parameters.
+
+```math
+\begin{align*}
+& y=\beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_3+\beta_4x_4+\beta_5x_5+\beta_6x_6+\beta_7x_7+\beta_8x_8+\beta_9x_9+\beta_{10}x_{10}+\beta_{11}x_{11}
+\end{align*}
+```
+
+ The estimated parameters are as follows:
+
+```math
+\begin{align*}
+&\beta_0 = 124.3939 \\ 
+&\beta_1 = 0.0459\\ 
+&\beta_2 = -1.9149\\ 
+&\beta_3 = -0.0613 \\ 
+&\beta_4 = 0.0712\\ 
+&\beta_5 = -0.0265\\ 
+&\beta_6 = 0.00511\\ 
+&\beta_7 = -2.42\times 10^{-4}\\ 
+&\beta_8 = -124.2641\\ 
+&\beta_9 = 0.6007\\ 
+&\beta_{10} = 0.6491\\ 
+&\beta_{11} = 0.2290
+\end{align*}
+```
+
+estimated confidence intervals of the parameters are as follows:
+
+```math
+\begin{align*}
+&\beta_0 \in [84.7696 ,164.0182]\\
+&\beta_1 \in [0.0005 ,0.0914]\\
+&\beta_2 \in [-2.1621 , -1.6677]\\
+&\beta_3 \in [-0.2738,0.1512]\\
+&\beta_4 \in [0.0552,0.0873]\\
+&\beta_5 \in [-1.2230,1.1700]\\
+&\beta_6 \in [0.0032,0.0070]\\
+&\beta_7 \in [-0.0011,0.0006]\\
+&\beta_8 \in [-164.4767,-84.0515]\\
+&\beta_9 \in [0.3701,0.8313]\\
+&\beta_{10} \in [0.4284,0.8701]\\
+&\beta_{11} \in [0.1777,0.2803]
+\end{align*}
+```
+for estimating the confidence intervals of the parameters, we have used statsmodels library. Which uses the t-distribution for calculating the confidence intervals as the sample size is less than 30.
