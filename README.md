@@ -154,7 +154,7 @@ We estimate the confidence intervals of the parameters using the given formula:
 
 ```math
 \begin{align*}
-&[\beta_j - t_{\frac{\alpha}{2},n-p-1}\sqrt{MS_{Res}C_{jj}},\beta_i - t_{\frac{\alpha}{2},n-p-1}\sqrt{MS_{Res}C_{jj}}]
+&[\beta_j - t_{\frac{\alpha}{2},n-p-1}\sqrt{MS_{Res}C_{jj}},\beta_i + t_{\frac{\alpha}{2},n-p-1}\sqrt{MS_{Res}C_{jj}}]
 \end{align*}
 ```
 
@@ -178,19 +178,29 @@ The confidence intervals of the parameters are as follows:
 \end{align*}
 ```
 
-for estimating the confidence intervals of the parameters, we have used statsmodels library.
+For estimating the confidence intervals of the parameters, we have used statsmodels library.
 
 ### 2. Testing the significance of the regression
 
 We have tested the significance of the regression using the F-test. The null hypothesis is that all the parameters are zero. The alternative hypothesis is that at least one parameter is non-zero. The F-statistic is calculated as follows:
 
 ```math
+H_{0}:\beta_1=\beta_2=...=\beta_p=0
+```
+
+```math
+H_{1}:\beta_j\ne 0 \text{  for some j}
+```
+
+```math
 \begin{align*}
-&F=\frac{MS_{Reg}/p}{MS_{Res}/(n-p-1)} \sim F(p,n-p-1)
+&F_0=\frac{SS_{Reg}/p}{SS_{Res}/(n-p-1)} \sim F(p,n-p-1), \text{under } H_0
 \end{align*}
 ```
 
-where $MS_{Reg}$ is the regression mean square and $MS_{Res}$ is the residual mean square. The F-statistic is compared with the critical value of the F-distribution for the given significance level and degrees of freedom. If the F-statistic is greater than the critical value, then we reject the null hypothesis. The F-statistic is 141.1 and the critical value is 1.7906. So we reject the null hypothesis.
+where $SS_{Reg}$ is the regression sum of squares and $SS_{Res}$ is the residual sum of squares. The F-statistic is compared with the critical value of the F-distribution for the given significance level and degrees of freedom. If the F-statistic is greater than the critical value, then we reject the null hypothesis. The F-statistic is 141.1 and the critical value is 1.7906. **So we reject the null hypothesis**.
+
+**Conclusion: At least one independent variable is contributing to the explanation of the dependent variable.**
 
 ### 3. Residual Analysis
 
@@ -234,8 +244,38 @@ where $SS_{Total}$ is the total sum of square. $SS_{Res}$ is the residual sum of
 ```math
 \begin{align*}
 & R^2_{adj}=0.282 \\
-& R^2=0.265
+& R^2=0.284
 \end{align*}
 ```
 
-### 5. Subset Selection
+### 5. Variable Selection
+
+Among the large number of possible explanatory variables, we wish to select those which explain the observed responses the best. This way, we can decrease the number of predictors (giving a parsimonious model) and get good predictive power by eliminating redundant variables.
+In this section, we briefly present three methods for variable selection. 
+
+#### 5.1 Forward Selection
+
+The forward selection method is an iterative method. In the first iteration we consider
+which feature f1 is the most significant in terms of its P-value for the F-test with f1 ∈ $\{x_1, x_2,. . . ,x_p\}$. This feature is then selected into the model. In the second iteration, the feature f2 that has the smallest P-value, where f2 , f1, and so on. Usually only features are selected that have a P-value of at most 0.05. To carry out a forward selection procedure.
+
+From this procedure we get:
+**['alcohol', 'volatile acidity', 'residual sugar', 'free sulfur dioxide', 'density', 'pH', 'sulphates', 'fixed acidity']**
+
+#### 5.2 Backward Selection
+This time, we start with the complete model and at each step, we delete the variable with lowest value of Student’s test statistic (largest P-value) in absolute value, as long as it is not significant (at a specified level $α$).
+
+From this procedure we get:
+**['fixed acidity', 'volatile acidity', 'residual sugar', 'free sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']**
+
+#### 5.3 Step-Wise Selection
+
+1. Start with an Empty Model or Full Model:
+- You can start with either an empty model (no predictors) or a full model (all predictors included).
+2. Iterate:
+- Perform both forward selection and backward elimination iteratively.
+- At each step, evaluate whether adding or removing a predictor variable improves the model based on the chosen criterion.
+- Stop the iteration when no further improvement is observed or when predefined stopping criteria are met (e.g., no variables meet the criteria for inclusion or removal).
+
+From this procedure we get:
+**['alcohol', 'volatile acidity', 'residual sugar', 'free sulfur dioxide', 'density', 'pH', 'sulphates', 'fixed acidity']**
+
