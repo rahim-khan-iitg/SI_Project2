@@ -279,3 +279,47 @@ From this procedure we get:
 From this procedure we get:
 **['alcohol', 'volatile acidity', 'residual sugar', 'free sulfur dioxide', 'density', 'pH', 'sulphates', 'fixed acidity']**
 
+### 6. Multicolliearity
+
+- **Introduction**
+Multicollinearity is a phenomenon in regression analysis where independent variables are highly correlated with each other, which can impact the interpretation and reliability of regression results.
+
+- **Multicollinearity Assessment**
+The Variance Inflation Factor (VIF) was employed to assess multicollinearity among the independent variables in the regression model.
+
+```math
+Var(\hat{\beta_j}) = \sigma^2C_{jj}, C = (X'X)^{-1}
+```
+
+```math
+c_{jj} = (1-R_j^2)^{-1} = \frac{1}{1-R_j^2} 
+```
+where $R_j^2$ is the coefficient of determination obtained when xj is regressed on remaining (k − 1) regressors.
+
+$\text{VIF}_j = \frac{1}{1-R_j^2}$
+
+This measures the factor by which the variance of $\beta^j$ inflated due to the near linear dependence.
+
+VIF values above a certain threshold (commonly 10) indicate multicollinearity.
+
+Highlight any variables with high VIF values, indicating strong collinearity with other variables in the model
+
+- **Results**
+The following table displays the VIF values for each independent variable:
+
+| Variable | VIF Value |
+|----------|-----------|
+|fixed acid  | 92.86       |
+| volatile acidity         | 9.730      |
+| citric acid  |  10.01      |
+|residual sugar  |   3.830     |
+| ...      | ...       |
+
+Variables with VIF values exceeding the threshold of 10 indicate multicollinearity, suggesting strong correlations with other variables in the model.
+
+- **Discussion**
+Multicollinearity can lead to inflated standard errors, unreliable hypothesis tests, and challenges in interpreting regression coefficients.
+
+- **Conclusion**
+The assessment of multicollinearity underscores its importance in regression analysis. Strategies for addressing multicollinearity, such as dropping highly correlated variables or using regularization techniques, may be necessary to ensure the reliability of regression results.
+
