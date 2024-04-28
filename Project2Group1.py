@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 import statsmodels.api as sm
+from statsmodels.stats.outliers_influence import variance_inflation_factor
 import scipy.stats as stats
 
 
@@ -133,6 +134,7 @@ print("graphs as been plotted")
 
 print("-----------------------------------------------------------------------------------")
 print(f"Adjusted R^2: {float(summary.tables[0].data[1][-1])}")
+print(f"R^2: {float(summary.tables[0].data[0][-1])}")
 print("-----------------------------------------------------------------------------------")
 
 
@@ -238,3 +240,20 @@ def stepwise_selection(X, y):
 
 selected_features_stepwise, best_model_stepwise = stepwise_selection(X, y)
 print("Selected Features (Stepwise Selection):", selected_features_stepwise)
+
+
+
+print("-----------------------------------------------------------------------------------")
+print("Detection of multicollinearity")
+print("-----------------------------------------------------------------------------------")
+# Calculate the Variance Inflation Factor (VIF) for each feature
+def calculate_vif(data):
+    vif_data = pd.DataFrame()
+    vif_data["Feature"] = data.columns
+    vif_data["VIF"] = [variance_inflation_factor(data.values, i) for i in range(data.shape[1])]
+    return vif_data
+
+vif_df = calculate_vif(X)
+
+print(vif_df)
+
