@@ -20,6 +20,10 @@ y = data['quality']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # plotting the data
+sns.heatmap(data.corr())
+# Save the plot as an image file
+plt.savefig('heatmap.png')
+
 for i in ['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar',
        'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density',
        'pH', 'sulphates', 'alcohol']:
@@ -108,27 +112,27 @@ plt.axhline(y=0, color='r', linestyle='-')
 plt.title('Residual Plot')
 plt.xlabel('Predicted Values')
 plt.ylabel('Residuals')
-plt.show()
-# plt.savefig('residual_plot.png')
-# plt.close()
+# plt.show()
+plt.savefig('residual_plot.png')
+plt.close()
 # Histogram of residuals
 plt.figure(figsize=(10, 6))
 plt.hist(residuals, bins=30, edgecolor='k', alpha=0.7)
 plt.title('Histogram of Residuals')
 plt.xlabel('Residuals')
 plt.ylabel('Frequency')
-plt.show()
-# plt.savefig('histogram_residuals.png')
-# plt.close()
+# plt.show()
+plt.savefig('histogram_residuals.png')
+plt.close()
 # Generate Q-Q plot
 fig, ax = plt.subplots(figsize=(8, 6))
 sm.qqplot(residuals, line ='q', ax=ax)
 ax.set_title('Q-Q Plot of Residuals')
 ax.set_xlabel('Theoretical Quantiles')
 ax.set_ylabel('Sample Quantiles')
-plt.show()
-# plt.savefig('qq_plot.png')
-# plt.close()
+# plt.show()
+plt.savefig('qq_plot.png')
+plt.close()
 
 print("graphs as been plotted")
 

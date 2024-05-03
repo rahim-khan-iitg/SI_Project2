@@ -251,7 +251,7 @@ where $SS_{Total}$ is the total sum of square. $SS_{Res}$ is the residual sum of
 ### 5. Variable Selection
 
 Among the large number of possible explanatory variables, we wish to select those which explain the observed responses the best. This way, we can decrease the number of predictors (giving a parsimonious model) and get good predictive power by eliminating redundant variables.
-In this section, we briefly present three methods for variable selection. 
+In this section, we briefly present three methods for variable selection.
 
 #### 5.1 Forward Selection
 
@@ -262,6 +262,7 @@ From this procedure we get:
 **['alcohol', 'volatile acidity', 'residual sugar', 'free sulfur dioxide', 'density', 'pH', 'sulphates', 'fixed acidity']**
 
 #### 5.2 Backward Selection
+
 This time, we start with the complete model and at each step, we delete the variable with lowest value of Student’s test statistic (largest P-value) in absolute value, as long as it is not significant (at a specified level $α$).
 
 From this procedure we get:
@@ -270,8 +271,11 @@ From this procedure we get:
 #### 5.3 Step-Wise Selection
 
 1. Start with an Empty Model or Full Model:
+
 - You can start with either an empty model (no predictors) or a full model (all predictors included).
+
 2. Iterate:
+
 - Perform both forward selection and backward elimination iteratively.
 - At each step, evaluate whether adding or removing a predictor variable improves the model based on the chosen criterion.
 - Stop the iteration when no further improvement is observed or when predefined stopping criteria are met (e.g., no variables meet the criteria for inclusion or removal).
@@ -294,6 +298,7 @@ Var(\hat{\beta_j}) = \sigma^2C_{jj}, C = (X'X)^{-1}
 ```math
 c_{jj} = (1-R_j^2)^{-1} = \frac{1}{1-R_j^2} 
 ```
+
 where $R_j^2$ is the coefficient of determination obtained when xj is regressed on remaining (k − 1) regressors.
 
 $\text{VIF}_j = \frac{1}{1-R_j^2}$
@@ -322,4 +327,3 @@ Multicollinearity can lead to inflated standard errors, unreliable hypothesis te
 
 - **Conclusion**
 The assessment of multicollinearity underscores its importance in regression analysis. Strategies for addressing multicollinearity, such as dropping highly correlated variables or using regularization techniques, may be necessary to ensure the reliability of regression results.
-
